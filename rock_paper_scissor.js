@@ -33,16 +33,19 @@ function getComputerChoice() {
   return choices[numChoice];
 }
 
-function getUserChoice(){
-  let userInput = prompt("Please enter your rock, paper, or scissors: ")
+function getUserChoice() {
+  let userInput = prompt("Please enter your rock, paper, or scissors: ");
   if (userInput !== null) {
-    console.log("User entered: ", userInput)
+    console.log("User entered: ", userInput);
   } else {
-    console.log("User cancelled input")
+    console.log("User cancelled input");
   }
 
   return userInput;
 }
+
+let playerSelection = getUserChoice();
+let computerSelection = getComputerChoice();
 
 let outcome = playRound(playerSelection, computerSelection);
 
