@@ -1,58 +1,58 @@
+const wins = {
+  rock: "scissors",
+  paper: "rock",
+  scissors: "paper",
+};
+
 function playRound(playerSelection, computerSelection) {
-  function playRound(playerSelection, computerSelection) {
-    switch (playerSelection.toLowerCase()) {
-      case "rock":
-        if (computerSelection.toLowerCase() === "paper") {
-          return false;
-        }
-        break; // Add a break statement here
-      case "scissors":
-        if (computerSelection.toLowerCase() === "rock") {
-          return false;
-        }
-        break; // Add a break statement here
-      case "paper":
-        if (computerSelection.toLowerCase() === "scissors") {
-          return false;
-        }
-        break; // Add a break statement here
-      default:
-        if (playerSelection !== computerSelection) {
-          return true;
-        } else {
-          return null;
-        }
-    }
+  playerSelection = playerSelection.toLowerCase();
+  if (!wins[playerSelection]) {
+    return null; // Invalid user input
   }
+  return playerSelection === wins[computerSelection];
 }
 
 function getComputerChoice() {
-  let choices = ["rock", "paper", "scissors"];
-  let numChoice = Math.floor(Math.random() * 3);
-
-  return choices[numChoice];
+  const choices = ["rock", "paper", "scissors"];
+  return choices[Math.floor(Math.random() * 3)];
 }
 
 function getUserChoice() {
-  let userInput = prompt("Please enter your rock, paper, or scissors: ");
-  if (userInput !== null) {
-    console.log("User entered: ", userInput);
-  } else {
-    console.log("User cancelled input");
+  let userInput;
+  while (!userInput || !wins[userInput.toLowerCase()]) {
+    userInput = prompt("Please enter rock, paper, or scissors: ");
+    if (!userInput) {
+      console.log("Cancelled input. Please try again.");
+    } else if (!wins[userInput.toLowerCase()]) {
+      console.log("Invalid input. Please enter rock, paper, or scissors.");
+    }
   }
-
-  return userInput;
+  return userInput.toLowerCase();
 }
 
-let playerSelection = getUserChoice();
-let computerSelection = getComputerChoice();
+function game() {
+  let keepPlaying = true;
+  while (keepPlaying) {
+    const playerSelection = getUserChoice();
+    const computerSelection = getComputerChoice();
+    const outcome = playRound(playerSelection, computerSelection);
 
-let outcome = playRound(playerSelection, computerSelection);
+    if (outcome === null) {
+      console.log("Invalid input. Please try again.");
+    } else if (outcome) {
+      console.log(
+        "You Win! " + playerSelection + " beats " + computerSelection
+      );
+    } else if (!outcome) {
+      console.log(
+        "You Lose! " + computerSelection + " beats " + playerSelection
+      );
+    } else {
+      console.log("It's a tie!");
+    }
 
-if (outcome === false) {
-  console.log("You Lose! " + computerSelection + " beats " + playerSelection);
-} else if (outcome === true) {
-  console.log("You Win! " + playerSelection + " beats " + computerSelection);
-} else {
-  console.log("It was a tie, try again");
+    keepPlaying = confirm("Play again?");
+  }
 }
+
+game();
